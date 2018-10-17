@@ -49,21 +49,30 @@ class App extends React.Component {
 			});
 		}
 	};
+
+	handleClick = e => {
+		console.log({ e });
+	};
+
+	newLine = () => {
+		document.addEventListener("click", this.handleClick, false);
+	};
 	render() {
 		return (
 			<div>
 				<h1>This is App.</h1>
 				<Draggable onDrag={this.position}>
-					<div id="E1">
-						<FontAwesomeIcon icon={faDesktop} size="3x" />
+					<div>
+						<FontAwesomeIcon id="E1" icon={faDesktop} size="3x" />
 					</div>
 				</Draggable>
 				<h1>iuhweifubwiefciuweciuwefcuwbfciwefcwefc</h1>
 				<Draggable onDrag={this.position}>
-					<div id="E2">
-						<FontAwesomeIcon icon={faDesktop} size="3x" />
+					<div>
+						<FontAwesomeIcon id="E2" icon={faDesktop} size="3x" />
 					</div>
 				</Draggable>
+				<button onClick={this.newLine}>New Line</button>
 				line follows:
 				{this.state.active && (
 					<Line
