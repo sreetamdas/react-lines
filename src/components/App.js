@@ -17,20 +17,24 @@ class App extends React.Component {
 			x0: null,
 			y0: null,
 			active: false,
-			nodes: [],
+			nodes: []
 		};
 	}
 	position = (e, data) => {
-		console.log("id:", data.node.id);
-		const id = data.node.id;
-		const el = document.getElementById(data.node.id);
+		console.log({ data });
+		// console.log("id:", data.node.firstChild.id);
+		const id = data.node.firstChild.id;
+		const el = document.getElementById(id);
+		el.classList.add("yellow");
+		// console.log(id, el.className);
+
 		if (!el) {
 			return false;
 		}
 
 		if (!this.state.nodes.includes(id)) {
 			this.setState({
-				nodes: [...this.state.nodes, id],
+				nodes: [...this.state.nodes, id]
 			});
 		}
 		const box = el.getBoundingClientRect();
@@ -41,11 +45,11 @@ class App extends React.Component {
 
 		this.setState({
 			[`x${index}`]: x1,
-			[`y${index}`]: y1,
+			[`y${index}`]: y1
 		});
 		if (this.state.x0 && this.state.x1) {
 			this.setState({
-				active: true,
+				active: true
 			});
 		}
 	};
@@ -62,18 +66,29 @@ class App extends React.Component {
 			<div>
 				<h1>This is App.</h1>
 				<Draggable onDrag={this.position}>
-					<div>
-						<FontAwesomeIcon id="E1" icon={faDesktop} size="3x" />
+					<div id="e1" style={{ backgroundColor: "" }}>
+						<FontAwesomeIcon id="E1" style={{ backgroundColor: "" }} icon={faDesktop} size="3x" />
 					</div>
 				</Draggable>
 				<h1>iuhweifubwiefciuweciuwefcuwbfciwefcwefc</h1>
 				<Draggable onDrag={this.position}>
-					<div>
-						<FontAwesomeIcon id="E2" icon={faDesktop} size="3x" />
+					<div id="E2">
+						<FontAwesomeIcon id="" icon={faDesktop} size="3x" />
+					</div>
+				</Draggable>
+				<Draggable onDrag={this.position}>
+					<div id="e3" style={{ backgroundColor: "" }}>
+						<FontAwesomeIcon id="E3" style={{ backgroundColor: "" }} icon={faDesktop} size="3x" />
+					</div>
+				</Draggable>
+				<h1>iuhweifubwiefciuweciuwefcuwbfciwefcwefc</h1>
+				<Draggable onDrag={this.position}>
+					<div id="E4">
+						<FontAwesomeIcon id="" icon={faDesktop} size="3x" />
 					</div>
 				</Draggable>
 				<button onClick={this.newLine}>New Line</button>
-				line follows:
+				line followsss:
 				{this.state.active && (
 					<Line
 						x0={this.state.x0}
