@@ -25,36 +25,42 @@ class App extends React.Component {
 		};
 	}
 
-	// separate handkers for initial and then drag
+	// separate handlers for initial and then drag
 	handleMovement = (e, data, initial) => {
 		// console.log({ data });
 		// console.log("id:", data.node.firstChild.id);
 		// let id = data.node.firstChild.id;
 
-		let id = null;
-		initial ? (id = initial) : (id = data.node.firstChild.id);
+		// let id = null;
+		// initial ? (id = initial) : (id = data.node.firstChild.id);
+		const id = initial ? initial : data.node.firstChild.id;
+		console.log({ id });
 		const el = document.getElementById(id);
 		// el.classList.add("yellow");
 		// console.log(id, el.className);
+		console.log({ el });
 
 		if (!el) {
+			console.log("false");
 			return false;
 		}
 		// no longer required?
 		if (!this.state.nodes.includes(id)) {
+			console.log("include");
 			this.setState({
 				nodes: [...this.state.nodes, id],
 			});
 		}
+		console.log("here");
 		const box = el.getBoundingClientRect();
 		console.log({ box });
-		const x1 = box.left + box.width / 2;
-		const y1 = box.bottom - box.height / 2;
+		const x = box.left + box.width / 2;
+		const y = box.bottom - box.height / 2;
 		const index = this.state.nodes.indexOf(id);
 
 		this.setState({
-			[`x${index}`]: x1,
-			[`y${index}`]: y1,
+			[`x${index}`]: x,
+			[`y${index}`]: y,
 		});
 		if (this.state.x0 && this.state.x1) {
 			this.setState({
