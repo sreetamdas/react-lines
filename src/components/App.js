@@ -11,7 +11,7 @@ class App extends React.Component {
 
 		this.position = this.position.bind(this);
 		this.allLines = this.allLines.bind(this);
-
+		this.Nodes = this.Nodes.bind(this);
 		this.state = {
 			coordinates: null,
 			x1: null,
@@ -64,10 +64,31 @@ class App extends React.Component {
 		document.addEventListener("click", this.handleClick, false);
 	};
 
+	// newPair = () => {
+	// 	this.setState({
+	// 		nodes
+	// 	});
+	// };
+
 	allLines = () => {
 		// for()
 	};
 
+	Nodes = () => {
+		const nodes = this.state.nodes;
+		console.log({ nodes });
+		return (
+			<React.Fragment>
+				{nodes.map(node => (
+					<Draggable>
+						<div>
+							<FontAwesomeIcon id={node} icon={faDesktop} size="3x" style={{ backgroundColor: "white" }} />
+						</div>
+					</Draggable>
+				))}
+			</React.Fragment>
+		);
+	};
 	render() {
 		return (
 			<div>
@@ -106,6 +127,7 @@ class App extends React.Component {
 						zIndex={-1}
 					/>
 				)}
+				<div>{this.state.active && this.Nodes()}</div>
 			</div>
 		);
 	}
