@@ -21,7 +21,7 @@ class App extends React.Component {
 			active: false,
 			message: null,
 			nodes: [],
-			lines: []
+			lines: [],
 		};
 	}
 
@@ -43,7 +43,7 @@ class App extends React.Component {
 		// no longer required?
 		if (!this.state.nodes.includes(id)) {
 			this.setState({
-				nodes: [...this.state.nodes, id]
+				nodes: [...this.state.nodes, id],
 			});
 		}
 		const box = el.getBoundingClientRect();
@@ -54,11 +54,11 @@ class App extends React.Component {
 
 		this.setState({
 			[`x${index}`]: x1,
-			[`y${index}`]: y1
+			[`y${index}`]: y1,
 		});
 		if (this.state.x0 && this.state.x1) {
 			this.setState({
-				active: true
+				active: true,
 			});
 		}
 	};
@@ -66,7 +66,7 @@ class App extends React.Component {
 	handleClick = e => {
 		console.log({ e });
 		this.setState({
-			message: "click the next one"
+			message: "click the next one",
 		});
 		document.removeEventListener("click", this.handleClick);
 	};
@@ -96,7 +96,7 @@ class App extends React.Component {
 		const init = this.state.nodes.length > 1 ? false : true;
 		this.setState({
 			nodes: [...this.state.nodes, first, second],
-			active: init
+			active: init,
 		});
 
 		this.handleMovement(null, null, first);
