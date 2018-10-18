@@ -19,11 +19,13 @@ class App extends React.Component {
 			x0: null,
 			y0: null,
 			active: false,
-			nodes: []
+			message: null,
+			nodes: [],
+			lines: []
 		};
 	}
 	position = (e, data) => {
-		console.log({ data });
+		// console.log({ data });
 		// console.log("id:", data.node.firstChild.id);
 		const id = data.node.firstChild.id;
 		const el = document.getElementById(id);
@@ -58,11 +60,14 @@ class App extends React.Component {
 
 	handleClick = e => {
 		console.log({ e });
+		this.setState({
+			message: "click the next one"
+		});
+		document.removeEventListener("click", this.handleClick);
 	};
 
-	newLine = () => {
-		document.addEventListener("click", this.handleClick, false);
-	};
+	// newLine = () => {
+	// };
 
 	// newPair = () => {
 	// 	this.setState({
@@ -82,32 +87,48 @@ class App extends React.Component {
 				.toString(36)
 				.substring(7);
 
-		console.log({ first }, { second });
+		// console.log({ first }, { second });
 		this.setState({
-			nodes: [...this.state.nodes, first, second]
+			nodes: [...this.state.nodes, first, second],
+			active: true
 		});
+	};
+
+	insertLine = () => {
+		document.addEventListener("click", this.handleClick, false);
 	};
 
 	Nodes = () => {
 		const nodes = this.state.nodes;
 		console.log({ nodes });
+		// this.setState({
+		// 	active: true
+		// })
 		return (
 			<React.Fragment>
 				{nodes.map(node => (
 					<Draggable>
 						<div>
-							<FontAwesomeIcon id={node} icon={faDesktop} size="3x" style={{ backgroundColor: "white" }} />
+							<FontAwesomeIcon
+								id={node}
+								key={node}
+								icon={faDesktop}
+								size="3x"
+								style={{ backgroundColor: "white" }}
+							/>
 						</div>
 					</Draggable>
 				))}
 			</React.Fragment>
 		);
 	};
+
+	Lines = () => {};
 	render() {
 		return (
 			<div>
 				<h1>This is App.</h1>
-				<Draggable onDrag={this.position}>
+				{/*<Draggable onDrag={this.position}>
 					<div>
 						<FontAwesomeIcon id="E1" icon={faDesktop} size="3x" style={{ backgroundColor: "white" }} />
 					</div>
@@ -130,7 +151,11 @@ class App extends React.Component {
 					</div>
 				</Draggable> */}
 				<button onClick={this.insertNodePair}>New Pair</button>
+				<button onClick={this.insertLine}>Draw Line</button>
+				{this.state.message}
+				<br />
 				line followssssssss:
+				<br />
 				{this.state.active && (
 					<Line
 						x0={this.state.x0}
