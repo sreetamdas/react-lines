@@ -9,7 +9,7 @@ class App extends React.Component {
 	constructor() {
 		super();
 
-		this.position = this.position.bind(this);
+		this.handleMovement = this.handleMovement.bind(this);
 		this.allLines = this.allLines.bind(this);
 		this.Nodes = this.Nodes.bind(this);
 		this.state = {
@@ -24,10 +24,15 @@ class App extends React.Component {
 			lines: []
 		};
 	}
-	position = (e, data) => {
+
+	// separate handkers for initial and then drag
+	handleMovement = (e, data, initial) => {
 		// console.log({ data });
 		// console.log("id:", data.node.firstChild.id);
-		const id = data.node.firstChild.id;
+		// let id = data.node.firstChild.id;
+
+		let id = null;
+		initial ? (id = initial) : (id = data.node.firstChild.id);
 		const el = document.getElementById(id);
 		// el.classList.add("yellow");
 		// console.log(id, el.className);
@@ -35,7 +40,7 @@ class App extends React.Component {
 		if (!el) {
 			return false;
 		}
-
+		// no longer required?
 		if (!this.state.nodes.includes(id)) {
 			this.setState({
 				nodes: [...this.state.nodes, id]
@@ -88,10 +93,14 @@ class App extends React.Component {
 				.substring(7);
 
 		// console.log({ first }, { second });
+		const init = this.state.nodes.length > 1 ? false : true;
 		this.setState({
 			nodes: [...this.state.nodes, first, second],
-			active: true
+			active: init
 		});
+
+		this.handleMovement(null, null, first);
+		this.handleMovement(null, null, second);
 	};
 
 	insertLine = () => {
@@ -107,7 +116,7 @@ class App extends React.Component {
 		return (
 			<React.Fragment>
 				{nodes.map(node => (
-					<Draggable>
+					<Draggable onDrag={this.handleMovement}>
 						<div>
 							<FontAwesomeIcon
 								id={node}
