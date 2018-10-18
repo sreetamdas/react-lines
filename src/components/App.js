@@ -74,6 +74,20 @@ class App extends React.Component {
 		// for()
 	};
 
+	insertNodePair = () => {
+		const first = Math.random()
+				.toString(36)
+				.substring(7),
+			second = Math.random()
+				.toString(36)
+				.substring(7);
+
+		console.log({ first }, { second });
+		this.setState({
+			nodes: [...this.state.nodes, first, second]
+		});
+	};
+
 	Nodes = () => {
 		const nodes = this.state.nodes;
 		console.log({ nodes });
@@ -104,7 +118,7 @@ class App extends React.Component {
 						<FontAwesomeIcon id="E2" icon={faDesktop} size="3x" />
 					</div>
 				</Draggable>
-				<Draggable onDrag={this.position}>
+				{/*<Draggable onDrag={this.position}>
 					<div>
 						<FontAwesomeIcon id="E3" icon={faDesktop} size="3x" />
 					</div>
@@ -114,8 +128,8 @@ class App extends React.Component {
 					<div>
 						<FontAwesomeIcon id="E4" icon={faDesktop} size="3x" />
 					</div>
-				</Draggable>
-				<button onClick={this.newLine}>New Line</button>
+				</Draggable> */}
+				<button onClick={this.insertNodePair}>New Pair</button>
 				line followssssssss:
 				{this.state.active && (
 					<Line
