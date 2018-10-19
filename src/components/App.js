@@ -10,6 +10,7 @@ class App extends React.Component {
 		super();
 
 		this.handleMovement = this.handleMovement.bind(this);
+		this.handleClick = this.handleClick.bind(this);
 		this.allLines = this.allLines.bind(this);
 		this.Nodes = this.Nodes.bind(this);
 		this.state = {
@@ -80,14 +81,14 @@ class App extends React.Component {
 
 		if (!this.state.first_node_in_line) {
 			let connections = this.state.lines;
-			console.log("first", { connections });
+			// console.log("first", { connections });
 			// connections = [...connections, node];
-			connections[`${node}`] = [];
+			this.state.lines[`${node}`] = [];
 			console.log("second", { connections });
 			this.setState({
 				message: "click the next one",
-				first_node_in_line: node,
-				lines: connections
+				first_node_in_line: node
+				// lines: []
 			});
 		} else {
 			const connections = this.state.lines;
@@ -95,11 +96,15 @@ class App extends React.Component {
 			connections[`${this.state.first_node_in_line}`].push(node);
 			console.log("updated:", { connections });
 
-			this.setState({
-				message: "done",
-				lines: connections,
-				first_node_in_line: false
-			});
+			this.setState(
+				{
+					message: "done",
+					lines: connections,
+					first_node_in_line: false
+				},
+				console.log(this.state.lines)
+			);
+
 			document.removeEventListener("click", this.handleClick);
 		}
 	};
