@@ -20,6 +20,7 @@ class App extends React.Component {
 			y0: null,
 			active: false,
 			message: null,
+			first_node_in_line: 0,
 			nodes: [],
 			lines: []
 		};
@@ -73,10 +74,34 @@ class App extends React.Component {
 
 	handleClick = e => {
 		console.log({ e });
-		this.setState({
-			message: "click the next one"
-		});
-		document.removeEventListener("click", this.handleClick);
+		console.log("target:", e.target.id);
+
+		const node = e.target.id;
+
+		if (!this.state.first_node_in_line) {
+			let connections = this.state.lines;
+			console.log("first", { connections });
+			// connections = [...connections, node];
+			connections[`${node}`] = [];
+			console.log("second", { connections });
+			this.setState({
+				message: "click the next one",
+				first_node_in_line: node,
+				lines: connections
+			});
+		} else {
+			const connections = this.state.lines;
+			console.log({ connections });
+			connections[`${this.state.first_node_in_line}`].push(node);
+			console.log("updated:", { connections });
+
+			this.setState({
+				message: "done",
+				lines: connections,
+				first_node_in_line: false
+			});
+			document.removeEventListener("click", this.handleClick);
+		}
 	};
 
 	allLines = () => {
@@ -116,7 +141,13 @@ class App extends React.Component {
 				{nodes.map(node => (
 					<Draggable onDrag={this.handleMovement}>
 						<div>
-							<FontAwesomeIcon id={node} key={node} icon={faDesktop} size="3x" style={{ backgroundColor: "white" }} />
+							<FontAwesomeIcon
+								id={node}
+								key={node}
+								icon={faDesktop}
+								size="3x"
+								style={{ backgroundColor: "white" }}
+							/>
 						</div>
 					</Draggable>
 				))}
@@ -136,7 +167,14 @@ class App extends React.Component {
 				line follows:
 				<br />
 				{this.state.active && (
-					<Line x0={this.state.x0} y0={this.state.y0} x1={this.state.x1} y1={this.state.y1} borderWidth={3} zIndex={-1} />
+					<Line
+						x0={this.state.x0}
+						y0={this.state.y0}
+						x1={this.state.x1}
+						y1={this.state.y1}
+						borderWidth={3}
+						zIndex={-1}
+					/>
 				)}
 				<div>{this.state.active && this.Nodes()}</div>
 			</div>
