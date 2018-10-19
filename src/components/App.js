@@ -21,17 +21,19 @@ class App extends React.Component {
 			active: false,
 			message: null,
 			nodes: [],
-			lines: [],
+			lines: []
 		};
 	}
 
+	componentDidMount = () => {
+		console.log("loaded");
+	};
 	// separate handlers for initial and then drag
 	handleMovement = (e, data, initial) => {
 		// console.log({ data });
 		// console.log("id:", data.node.firstChild.id);
 		// let id = data.node.firstChild.id;
 
-		// let id = null;
 		// initial ? (id = initial) : (id = data.node.firstChild.id);
 		const id = initial ? initial : data.node.firstChild.id;
 		console.log({ id });
@@ -48,7 +50,7 @@ class App extends React.Component {
 		if (!this.state.nodes.includes(id)) {
 			console.log("include");
 			this.setState({
-				nodes: [...this.state.nodes, id],
+				nodes: [...this.state.nodes, id]
 			});
 		}
 		console.log("here");
@@ -60,11 +62,11 @@ class App extends React.Component {
 
 		this.setState({
 			[`x${index}`]: x,
-			[`y${index}`]: y,
+			[`y${index}`]: y
 		});
 		if (this.state.x0 && this.state.x1) {
 			this.setState({
-				active: true,
+				active: true
 			});
 		}
 	};
@@ -72,7 +74,7 @@ class App extends React.Component {
 	handleClick = e => {
 		console.log({ e });
 		this.setState({
-			message: "click the next one",
+			message: "click the next one"
 		});
 		document.removeEventListener("click", this.handleClick);
 	};
@@ -89,10 +91,10 @@ class App extends React.Component {
 				.toString(36)
 				.substring(7);
 
-		const init = this.state.nodes.length > 1 ? false : true;
+		// const init = this.state.nodes.length > 1 ? false : true;
 		this.setState({
 			nodes: [...this.state.nodes, first, second],
-			active: init,
+			active: true
 		});
 
 		this.handleMovement(null, null, first);
@@ -114,13 +116,7 @@ class App extends React.Component {
 				{nodes.map(node => (
 					<Draggable onDrag={this.handleMovement}>
 						<div>
-							<FontAwesomeIcon
-								id={node}
-								key={node}
-								icon={faDesktop}
-								size="3x"
-								style={{ backgroundColor: "white" }}
-							/>
+							<FontAwesomeIcon id={node} key={node} icon={faDesktop} size="3x" style={{ backgroundColor: "white" }} />
 						</div>
 					</Draggable>
 				))}
@@ -137,17 +133,10 @@ class App extends React.Component {
 				<button onClick={this.insertLine}>Draw Line</button>
 				{this.state.message}
 				<br />
-				line followssssssss:
+				line follows:
 				<br />
 				{this.state.active && (
-					<Line
-						x0={this.state.x0}
-						y0={this.state.y0}
-						x1={this.state.x1}
-						y1={this.state.y1}
-						borderWidth={3}
-						zIndex={-1}
-					/>
+					<Line x0={this.state.x0} y0={this.state.y0} x1={this.state.x1} y1={this.state.y1} borderWidth={3} zIndex={-1} />
 				)}
 				<div>{this.state.active && this.Nodes()}</div>
 			</div>
