@@ -80,10 +80,10 @@ class App extends React.Component {
 		const node = e.target.id;
 
 		if (!this.state.first_node_in_line) {
-			let connections = this.state.lines;
-			// console.log("first", { connections });
+			const connections = this.state.lines;
+			console.log("first", { connections });
 			// connections = [...connections, node];
-			this.state.lines[`${node}`] = [];
+			connections[`${node}`] = [];
 			console.log("second", { connections });
 			this.setState({
 				message: "click the next one",
@@ -102,7 +102,7 @@ class App extends React.Component {
 					lines: connections,
 					first_node_in_line: false
 				},
-				console.log(this.state.lines)
+				console.log("state:", this.state.lines)
 			);
 
 			document.removeEventListener("click", this.handleClick);
