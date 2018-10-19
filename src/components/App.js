@@ -10,6 +10,7 @@ class App extends React.Component {
 		super();
 
 		this.handleMovement = this.handleMovement.bind(this);
+		this.handleClick = this.handleClick.bind(this);
 		this.allLines = this.allLines.bind(this);
 		this.Nodes = this.Nodes.bind(this);
 		this.state = {
@@ -20,20 +21,26 @@ class App extends React.Component {
 			y0: null,
 			active: false,
 			message: null,
+			first_node_in_line: 0,
 			nodes: [],
-			lines: [],
+			lines: []
 		};
 	}
 
+<<<<<<< HEAD
 	componentDidMount = () => {};
 
+=======
+	componentDidMount = () => {
+		console.log("loaded");
+	};
+>>>>>>> e93d7dfb2838935a21c4c3191df2aad6b40b14ca
 	// separate handlers for initial and then drag
 	handleMovement = (e, data, initial) => {
 		// console.log({ data });
 		// console.log("id:", data.node.firstChild.id);
 		// let id = data.node.firstChild.id;
 
-		// let id = null;
 		// initial ? (id = initial) : (id = data.node.firstChild.id);
 		const id = initial ? initial : data.node.firstChild.id;
 		console.log({ id });
@@ -50,7 +57,7 @@ class App extends React.Component {
 		if (!this.state.nodes.includes(id)) {
 			console.log("include");
 			this.setState({
-				nodes: [...this.state.nodes, id],
+				nodes: [...this.state.nodes, id]
 			});
 		}
 		console.log("here");
@@ -62,21 +69,49 @@ class App extends React.Component {
 
 		this.setState({
 			[`x${index}`]: x,
-			[`y${index}`]: y,
+			[`y${index}`]: y
 		});
 		if (this.state.x0 && this.state.x1) {
 			this.setState({
-				active: true,
+				active: true
 			});
 		}
 	};
 
 	handleClick = e => {
 		console.log({ e });
-		this.setState({
-			message: "click the next one",
-		});
-		document.removeEventListener("click", this.handleClick);
+		console.log("target:", e.target.id);
+
+		const node = e.target.id;
+
+		if (!this.state.first_node_in_line) {
+			const connections = this.state.lines;
+			console.log("first", { connections });
+			// connections = [...connections, node];
+			connections[`${node}`] = [];
+			console.log("second", { connections });
+			this.setState({
+				message: "click the next one",
+				first_node_in_line: node
+				// lines: []
+			});
+		} else {
+			const connections = this.state.lines;
+			console.log({ connections });
+			connections[`${this.state.first_node_in_line}`].push(node);
+			console.log("updated:", { connections });
+
+			this.setState(
+				{
+					message: "done",
+					lines: connections,
+					first_node_in_line: false
+				},
+				console.log("state:", this.state.lines)
+			);
+
+			document.removeEventListener("click", this.handleClick);
+		}
 	};
 
 	allLines = () => {
@@ -90,15 +125,11 @@ class App extends React.Component {
 			second = Math.random()
 				.toString(36)
 				.substring(7);
-
-		const init = this.state.nodes.length > 1 ? false : true;
-		this.setState(
-			{ nodes: [...this.state.nodes, first, second], active: init },
-			this.filler(),
-		);
-
-		// this.Nodes();
-
+		// const init = this.state.nodes.length > 1 ? false : true;
+		this.setState({
+			nodes: [...this.state.nodes, first, second],
+			active: true
+		});
 		this.handleMovement(null, null, first);
 		this.handleMovement(null, null, second);
 	};
@@ -145,7 +176,7 @@ class App extends React.Component {
 				<button onClick={this.insertLine}>Draw Line</button>
 				{this.state.message}
 				<br />
-				line followssssssss:
+				line follows:
 				<br />
 				{this.state.active && (
 					<Line
