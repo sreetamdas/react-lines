@@ -25,6 +25,8 @@ class App extends React.Component {
 		};
 	}
 
+	componentDidMount = () => {};
+
 	// separate handlers for initial and then drag
 	handleMovement = (e, data, initial) => {
 		// console.log({ data });
@@ -90,10 +92,12 @@ class App extends React.Component {
 				.substring(7);
 
 		const init = this.state.nodes.length > 1 ? false : true;
-		this.setState({
-			nodes: [...this.state.nodes, first, second],
-			active: init,
-		});
+		this.setState(
+			{ nodes: [...this.state.nodes, first, second], active: init },
+			this.filler(),
+		);
+
+		// this.Nodes();
 
 		this.handleMovement(null, null, first);
 		this.handleMovement(null, null, second);
@@ -102,6 +106,10 @@ class App extends React.Component {
 	insertLine = () => {
 		document.addEventListener("click", this.handleClick, false);
 	};
+
+	filler = () => {
+		this.Nodes();
+	}
 
 	Nodes = () => {
 		const nodes = this.state.nodes;
