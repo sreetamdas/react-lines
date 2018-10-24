@@ -122,10 +122,12 @@ class App extends React.Component {
 		console.log("node called");
 		const first = Math.random()
 				.toString(36)
-				.substring(7),
+				.substr(2, 6),
 			second = Math.random()
 				.toString(36)
-				.substring(7);
+				.substr(2, 6);
+
+		console.log("gen: ", first, second);
 
 		// const init = this.state.nodes.length > 1 ? false : true;
 		this.setState({
