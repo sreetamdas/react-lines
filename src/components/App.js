@@ -13,6 +13,7 @@ class App extends React.Component {
 		this.handleClick = this.handleClick.bind(this);
 		this.generateNodePair = this.generateNodePair.bind(this);
 		this.Nodes = this.Nodes.bind(this);
+		this.Lines = this.Lines.bind(this);
 		this.state = {
 			active: false,
 			message: null,
@@ -26,9 +27,9 @@ class App extends React.Component {
 	componentDidMount = () => {
 		console.log("loaded");
 	};
-	componentDidUpdate() {
-		console.log("lines:", this.state.lines);
-	}
+	// componentDidUpdate() {
+	// 	console.log("lines:", this.state.lines);
+	// }
 	// separate handlers for initial and then drag
 	handleMovement = (e, data) => {
 		const id = data.node.firstChild.id;
@@ -49,7 +50,7 @@ class App extends React.Component {
 		// 		nodes: [...this.state.nodes, id]
 		// 	});
 		// }
-		console.log("here");
+		// console.log("here");
 		// console.log({ el });
 		const box = el.getBoundingClientRect();
 		// console.log({ box });
@@ -111,7 +112,7 @@ class App extends React.Component {
 			);
 			console.log("removing listener");
 			document.removeEventListener("click", this.handleClick);
-			this.Lines();
+			// this.Lines();
 		}
 		console.log("phase over");
 	};
@@ -146,13 +147,13 @@ class App extends React.Component {
 
 	Nodes = () => {
 		const nodes = this.state.nodes;
-		console.log("nodes = ", { nodes });
+		// console.log("nodes = ", { nodes });
 		return (
 			<React.Fragment>
 				{nodes.map(node => (
-					<Draggable onDrag={this.handleMovement}>
+					<Draggable onDrag={this.handleMovement} key={node}>
 						<div className="shrink">
-							<FontAwesomeIcon id={node} key={node} icon={faDesktop} size="3x" style={{ backgroundColor: "white" }} />
+							<FontAwesomeIcon id={node} icon={faDesktop} size="3x" style={{ backgroundColor: "white" }} />
 						</div>
 					</Draggable>
 				))}
@@ -168,12 +169,38 @@ class App extends React.Component {
 
 		console.log({ lines }, "ty:", typeof lines);
 		console.log(this.state.lines);
+
 		Object.entries(lines).forEach(([src, dest]) => {
-			console.log("src: ", { src }, "dest:", { dest });
-			console.log("srcIndex: ", nodes.indexOf(src));
-			dest.forEach(node => {
-				console.log("destIndex: ", nodes.indexOf(node));
-			});
+			const src_coordinates = coordinates[`${nodes.indexOf(src)}`];
+			return (
+				<React.Fragment>
+					{dest.map(node => (
+						// console.log(coordinates[`${nodes.indexOf(node)}`]),
+						<Line
+							key={node}
+							x0={src_coordinates[0]}
+							y0={src_coordinates[1]}
+							x1={coordinates[`${nodes.indexOf(node)}`][0]}
+							y1={coordinates[`${nodes.indexOf(node)}`][1]}
+							borderWidth={3}
+							// zIndex={-1}
+						/>
+					))}
+				</React.Fragment>
+			);
+			// dest.forEach(node => {
+			// 	const dest_coordinates = coordinates[`${nodes.indexOf(node)}`];
+			// 	return (
+			// 		<Line
+			// 			x0={src_coordinates[0]}
+			// 			y0={src_coordinates[1]}
+			// 			x1={dest_coordinates[0]}
+			// 			y1={dest_coordinates[1]}
+			// 			borderWidth={3}
+			// 			zIndex={-1}
+			// 		/>
+			// 	);
+			// });
 		});
 		// for (let nodes in lines) {
 		// 	console.log(nodes, typeof nodes);
@@ -190,9 +217,7 @@ class App extends React.Component {
 				<br />
 				line follows:
 				<br />
-				{this.state.active && (
-					<Line x0={this.state.x0} y0={this.state.y0} x1={this.state.x1} y1={this.state.y1} borderWidth={3} zIndex={-1} />
-				)}
+				<div>{this.state.active && this.Lines()}</div>
 				<div>{this.state.active && this.Nodes()}</div>
 			</div>
 		);
