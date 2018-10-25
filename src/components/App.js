@@ -11,19 +11,19 @@ class App extends React.Component {
 
 		this.handleMovement = this.handleMovement.bind(this);
 		this.handleClick = this.handleClick.bind(this);
+		this.generateNodePair = this.generateNodePair.bind(this);
 		this.Nodes = this.Nodes.bind(this);
 		this.state = {
-			coordinates: null,
 			x1: null,
 			y1: null,
 			x0: null,
 			y0: null,
 			active: false,
 			message: null,
-			first_node_in_line: 0,
+			first_node_in_line: false,
 			nodes: [],
-			lines: [],
-			new: []
+			coordinates: [],
+			lines: []
 		};
 	}
 
@@ -34,14 +34,18 @@ class App extends React.Component {
 		console.log("lines:", this.state.lines);
 	}
 	// separate handlers for initial and then drag
-	handleMovement = (e, data, initial) => {
-		const id = initial ? initial : data.node.firstChild.id;
+	handleMovement = (e, data) => {
+		const id = data.node.firstChild.id;
 		const el = document.getElementById(id);
 
 		if (!el) {
 			console.log("false");
 			return false;
 		}
+
+		// const nodes = { ...this.state.nodes };
+		// const index = nodes.indexOf(id);
+		// console.log({index})
 		// no longer required?
 		// if (!this.state.nodes.includes(id)) {
 		// 	console.log("include");
@@ -57,9 +61,11 @@ class App extends React.Component {
 		const y = box.bottom - box.height / 2;
 		const index = this.state.nodes.indexOf(id);
 
+		const updated_coordinates = [...this.state.coordinates];
+		updated_coordinates[index] = [x, y];
+
 		this.setState({
-			[`x${index}`]: x,
-			[`y${index}`]: y
+			coordinates: updated_coordinates
 		});
 		if (this.state.x0 && this.state.x1) {
 			this.setState({
@@ -114,12 +120,13 @@ class App extends React.Component {
 			);
 			console.log("removing listener");
 			document.removeEventListener("click", this.handleClick);
+			this.Lines();
 		}
 		console.log("phase over");
 	};
 
-	insertNodePair = () => {
-		console.log("node called");
+	generateNodePair = () => {
+		console.log("generating");
 		const first = Math.random()
 				.toString(36)
 				.substr(2, 6),
@@ -135,8 +142,11 @@ class App extends React.Component {
 			active: true
 		});
 
-		this.handleMovement(null, null, first);
-		this.handleMovement(null, null, second);
+		// this.insertNodePair(first, second);
+	};
+
+	insertNodePair = (first, second) => {
+		console.log("inserting");
 	};
 
 	insertLine = () => {
@@ -151,13 +161,7 @@ class App extends React.Component {
 				{nodes.map(node => (
 					<Draggable onDrag={this.handleMovement}>
 						<div>
-							<FontAwesomeIcon
-								id={node}
-								key={node}
-								icon={faDesktop}
-								size="3x"
-								style={{ backgroundColor: "white" }}
-							/>
+							<FontAwesomeIcon id={node} key={node} icon={faDesktop} size="3x" style={{ backgroundColor: "white" }} />
 						</div>
 					</Draggable>
 				))}
@@ -165,26 +169,28 @@ class App extends React.Component {
 		);
 	};
 
-	Lines = () => {};
+	Lines = () => {
+		console.log("in lines");
+		const coordinates = [...this.state.coordinates];
+		console.log({ coordinates }, "ty:", typeof coordinates);
+		return coordinates.forEach(coordinates => {
+			console.log(coordinates);
+		});
+		// <Line x0={} y0={} x1={} y1={} borderWidth={3} zIndex={-1} />
+	};
+
 	render() {
 		return (
 			<div>
 				<h1>This is App.</h1>
-				<button onClick={this.insertNodePair}>New Pair</button>
+				<button onClick={this.generateNodePair}>New Pair</button>
 				<button onClick={this.insertLine}>Draw Line</button>
 				{this.state.message}
 				<br />
 				line follows:
 				<br />
 				{this.state.active && (
-					<Line
-						x0={this.state.x0}
-						y0={this.state.y0}
-						x1={this.state.x1}
-						y1={this.state.y1}
-						borderWidth={3}
-						zIndex={-1}
-					/>
+					<Line x0={this.state.x0} y0={this.state.y0} x1={this.state.x1} y1={this.state.y1} borderWidth={3} zIndex={-1} />
 				)}
 				<div>{this.state.active && this.Nodes()}</div>
 			</div>
