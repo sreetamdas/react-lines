@@ -14,10 +14,6 @@ class App extends React.Component {
 		this.generateNodePair = this.generateNodePair.bind(this);
 		this.Nodes = this.Nodes.bind(this);
 		this.state = {
-			x1: null,
-			y1: null,
-			x0: null,
-			y0: null,
 			active: false,
 			message: null,
 			first_node_in_line: false,
@@ -54,7 +50,7 @@ class App extends React.Component {
 		// 	});
 		// }
 		console.log("here");
-		console.log({ el });
+		// console.log({ el });
 		const box = el.getBoundingClientRect();
 		// console.log({ box });
 		const x = box.left + box.width / 2;
@@ -67,11 +63,6 @@ class App extends React.Component {
 		this.setState({
 			coordinates: updated_coordinates
 		});
-		if (this.state.x0 && this.state.x1) {
-			this.setState({
-				active: true
-			});
-		}
 	};
 
 	handleClick = e => {
@@ -160,7 +151,7 @@ class App extends React.Component {
 			<React.Fragment>
 				{nodes.map(node => (
 					<Draggable onDrag={this.handleMovement}>
-						<div>
+						<div className="shrink">
 							<FontAwesomeIcon id={node} key={node} icon={faDesktop} size="3x" style={{ backgroundColor: "white" }} />
 						</div>
 					</Draggable>
@@ -171,12 +162,17 @@ class App extends React.Component {
 
 	Lines = () => {
 		console.log("in lines");
-		const coordinates = [...this.state.coordinates];
-		console.log({ coordinates }, "ty:", typeof coordinates);
-		return coordinates.forEach(coordinates => {
-			console.log(coordinates);
+		const coordinates = [...this.state.coordinates],
+			lines = { ...this.state.lines };
+
+		console.log({ lines }, "ty:", typeof lines);
+		console.log(this.state.lines);
+		Object.entries(lines).forEach(([src, dest]) => {
+			console.log("src: ", { src }, "dest:", { dest });
 		});
-		// <Line x0={} y0={} x1={} y1={} borderWidth={3} zIndex={-1} />
+		// for (let nodes in lines) {
+		// 	console.log(nodes, typeof nodes);
+		// }
 	};
 
 	render() {
