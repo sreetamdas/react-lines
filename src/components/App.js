@@ -163,12 +163,17 @@ class App extends React.Component {
 	Lines = () => {
 		console.log("in lines");
 		const coordinates = [...this.state.coordinates],
-			lines = { ...this.state.lines };
+			lines = { ...this.state.lines },
+			nodes = [...this.state.nodes];
 
 		console.log({ lines }, "ty:", typeof lines);
 		console.log(this.state.lines);
 		Object.entries(lines).forEach(([src, dest]) => {
 			console.log("src: ", { src }, "dest:", { dest });
+			console.log("srcIndex: ", nodes.indexOf(src));
+			dest.forEach(node => {
+				console.log("destIndex: ", nodes.indexOf(node));
+			});
 		});
 		// for (let nodes in lines) {
 		// 	console.log(nodes, typeof nodes);
