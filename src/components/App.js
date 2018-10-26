@@ -16,6 +16,7 @@ class App extends React.Component {
 		this.Lines = this.Lines.bind(this);
 		this.state = {
 			active: false,
+			show: false,
 			message: null,
 			first_node_in_line: false,
 			nodes: [],
@@ -106,7 +107,8 @@ class App extends React.Component {
 				{
 					message: "done",
 					lines: connections,
-					first_node_in_line: false
+					first_node_in_line: false,
+					show: true
 				},
 				console.log("state:", this.state.lines)
 			);
@@ -147,16 +149,26 @@ class App extends React.Component {
 
 	Nodes = () => {
 		const nodes = this.state.nodes;
-		// console.log("nodes = ", { nodes });
+		console.log("nodes = ", { nodes });
 		return (
 			<React.Fragment>
-				{nodes.map(node => (
-					<Draggable onDrag={this.handleMovement} key={node}>
-						<div className="shrink">
-							<FontAwesomeIcon id={node} icon={faDesktop} size="3x" style={{ backgroundColor: "white" }} />
-						</div>
-					</Draggable>
-				))}
+				{nodes.map(
+					node => (
+						console.log("qwe"),
+						(
+							<Draggable onDrag={this.handleMovement} key={node}>
+								<div className="shrink">
+									<FontAwesomeIcon
+										id={node}
+										icon={faDesktop}
+										size="3x"
+										style={{ backgroundColor: "white" }}
+									/>
+								</div>
+							</Draggable>
+						)
+					)
+				)}
 			</React.Fragment>
 		);
 	};
@@ -170,38 +182,56 @@ class App extends React.Component {
 		console.log({ lines }, "ty:", typeof lines);
 		console.log(this.state.lines);
 
-		Object.entries(lines).forEach(([src, dest]) => {
-			const src_coordinates = coordinates[`${nodes.indexOf(src)}`];
-			return (
-				<React.Fragment>
-					{dest.map(node => (
-						// console.log(coordinates[`${nodes.indexOf(node)}`]),
-						<Line
-							key={node}
-							x0={src_coordinates[0]}
-							y0={src_coordinates[1]}
-							x1={coordinates[`${nodes.indexOf(node)}`][0]}
-							y1={coordinates[`${nodes.indexOf(node)}`][1]}
-							borderWidth={3}
-							// zIndex={-1}
-						/>
-					))}
-				</React.Fragment>
-			);
-			// dest.forEach(node => {
-			// 	const dest_coordinates = coordinates[`${nodes.indexOf(node)}`];
-			// 	return (
-			// 		<Line
-			// 			x0={src_coordinates[0]}
-			// 			y0={src_coordinates[1]}
-			// 			x1={dest_coordinates[0]}
-			// 			y1={dest_coordinates[1]}
-			// 			borderWidth={3}
-			// 			zIndex={-1}
-			// 		/>
-			// 	);
-			// });
-		});
+		if (typeof lines === "undefined" || lines === null || lines.length === null || lines.length === 0) {
+			return null;
+		}
+
+		// Object.entries(lines).forEach(([src, dest]) => {
+		// const src_coordinates = coordinates[`${nodes.indexOf(src)}`];
+		// console.log(coordinates[`${nodes.indexOf(node)}`]),
+		// 	console.log("asd"),
+		// 	<p>tyutyu</p> ,
+		const lines_keys = Object.keys(lines);
+		const lines_values = Object.values(lines);
+
+		console.log({ lines_keys }, { lines_values });
+		return (
+			<React.Fragment>
+				{lines_keys.map((node, index) =>
+					lines_values[index].map(
+						dest => (
+							console.log({ index }, { node }, { dest }, coordinates[`${nodes.indexOf(dest)}`]),
+							(
+								<Line
+									key={dest}
+									x0={coordinates[`${nodes.indexOf(node)}`][0]}
+									y0={coordinates[`${nodes.indexOf(node)}`][1]}
+									x1={coordinates[`${nodes.indexOf(dest)}`][0]}
+									y1={coordinates[`${nodes.indexOf(dest)}`][1]}
+									borderWidth={3}
+									// borderColor="red"
+									zIndex={-1}
+								/>
+							)
+						)
+					)
+				)}
+			</React.Fragment>
+		);
+		// dest.forEach(node => {
+		// 	const dest_coordinates = coordinates[`${nodes.indexOf(node)}`];
+		// 	return (
+		// 		<Line
+		// 			x0={src_coordinates[0]}
+		// 			y0={src_coordinates[1]}
+		// 			x1={dest_coordinates[0]}
+		// 			y1={dest_coordinates[1]}
+		// 			borderWidth={3}
+		// 			zIndex={-1}
+		// 		/>
+		// 	);
+		// });
+		// });
 		// for (let nodes in lines) {
 		// 	console.log(nodes, typeof nodes);
 		// }
@@ -217,7 +247,7 @@ class App extends React.Component {
 				<br />
 				line follows:
 				<br />
-				<div>{this.state.active && this.Lines()}</div>
+				<div>{this.state.show && this.Lines()}</div>
 				<div>{this.state.active && this.Nodes()}</div>
 			</div>
 		);
