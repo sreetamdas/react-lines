@@ -7,3 +7,7 @@ body {
 .yellow {
 	background-color: yellow;
 }
+
+.shrink {
+	display: inline-block !important;
+}
