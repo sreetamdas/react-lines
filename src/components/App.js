@@ -23,18 +23,12 @@ class App extends React.Component {
 			message: null,
 			first_node_in_line: 0,
 			nodes: [],
-			lines: []
+			lines: [],
 		};
 	}
-
-<<<<<<< HEAD
-	componentDidMount = () => {};
-
-=======
 	componentDidMount = () => {
 		console.log("loaded");
 	};
->>>>>>> e93d7dfb2838935a21c4c3191df2aad6b40b14ca
 	// separate handlers for initial and then drag
 	handleMovement = (e, data, initial) => {
 		// console.log({ data });
@@ -57,7 +51,7 @@ class App extends React.Component {
 		if (!this.state.nodes.includes(id)) {
 			console.log("include");
 			this.setState({
-				nodes: [...this.state.nodes, id]
+				nodes: [...this.state.nodes, id],
 			});
 		}
 		console.log("here");
@@ -69,34 +63,37 @@ class App extends React.Component {
 
 		this.setState({
 			[`x${index}`]: x,
-			[`y${index}`]: y
+			[`y${index}`]: y,
 		});
 		if (this.state.x0 && this.state.x1) {
 			this.setState({
-				active: true
+				active: true,
 			});
 		}
 	};
 
 	handleClick = e => {
-		console.log({ e });
+		// console.log({ e });
 		console.log("target:", e.target.id);
 
 		const node = e.target.id;
 
 		if (!this.state.first_node_in_line) {
-			const connections = this.state.lines;
+			const connections = [...this.state.lines];
 			console.log("first", { connections });
 			// connections = [...connections, node];
-			connections[`${node}`] = [];
+			if (!connections[`${node}`]) {
+				console.log("init");
+				connections[`${node}`] = [];
+			}
 			console.log("second", { connections });
 			this.setState({
 				message: "click the next one",
-				first_node_in_line: node
+				first_node_in_line: node,
 				// lines: []
 			});
 		} else {
-			const connections = this.state.lines;
+			const connections = [...this.state.lines];
 			console.log({ connections });
 			connections[`${this.state.first_node_in_line}`].push(node);
 			console.log("updated:", { connections });
@@ -105,9 +102,9 @@ class App extends React.Component {
 				{
 					message: "done",
 					lines: connections,
-					first_node_in_line: false
+					first_node_in_line: false,
 				},
-				console.log("state:", this.state.lines)
+				console.log("state:", this.state.lines),
 			);
 
 			document.removeEventListener("click", this.handleClick);
@@ -128,7 +125,7 @@ class App extends React.Component {
 		// const init = this.state.nodes.length > 1 ? false : true;
 		this.setState({
 			nodes: [...this.state.nodes, first, second],
-			active: true
+			active: true,
 		});
 		this.handleMovement(null, null, first);
 		this.handleMovement(null, null, second);
@@ -140,7 +137,7 @@ class App extends React.Component {
 
 	filler = () => {
 		this.Nodes();
-	}
+	};
 
 	Nodes = () => {
 		const nodes = this.state.nodes;
