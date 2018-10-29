@@ -6604,10 +6604,10 @@ react-error-overlay@^4.0.1:
   resolved "https://registry.npmjs.org/react-error-overlay/-/react-error-overlay-4.0.1.tgz#417addb0814a90f3a7082eacba7cee588d00da89"
   integrity sha512-xXUbDAZkU08aAkjtUvldqbvI04ogv+a1XdHxvYuHPYKIVk/42BIOD0zSKTHAWV4+gDy3yGm283z2072rA2gdtw==
 
-react-progress-line@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/react-progress-line/-/react-progress-line-1.0.0.tgz#6e53efbde4f6b1a796f4677c194eac57450195a8"
-  integrity sha512-Hb0tXTokMOnICLZw7/f34VQApn/VQ1yIJtH2VQz7EyM/R+2Bic1F90pJrx5TjBVSR4tNWwMWHZmB6hxM9IrrkQ==
+react-progress-line@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/react-progress-line/-/react-progress-line-3.2.0.tgz#6e3b6d17e2ee50b339f403d4853523da362af8c6"
+  integrity sha512-Xm4sdLJsiGfG+Vhuv8rK+M3y0jepam5jy3kNRbRFiLd5QO9nlohJyF1xLTkQfKt5ohuoTIAr7ycyTnIqSpeRfQ==
   dependencies:
     babel-polyfill "6.26.0"
     prop-types "15.6.0"
