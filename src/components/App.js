@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDesktop } from "@fortawesome/free-solid-svg-icons";
 import Draggable from "react-draggable";
 import LineElement from "./Line";
-import { Line } from "react-lineto";
+import { Line } from "react-progress-line";
 
 class App extends React.Component {
 	constructor() {
