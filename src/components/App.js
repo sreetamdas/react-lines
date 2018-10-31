@@ -5,7 +5,7 @@ import Draggable from "react-draggable";
 import LineElement from "./Line";
 import { Line } from "react-progress-line";
 
-class App extends React.Component {
+class ReactLines extends React.Component {
 	constructor() {
 		super();
 
@@ -224,4 +224,4 @@ class App extends React.Component {
 	}
 }
 
-export default App;
+export default ReactLines;
