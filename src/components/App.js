@@ -11,7 +11,7 @@ class App extends React.Component {
 
 		this.handleMovement = this.handleMovement.bind(this);
 		this.handleClick = this.handleClick.bind(this);
-		this.generateNodePair = this.generateNodePair.bind(this);
+		this.generateNode = this.generateNode.bind(this);
 		this.Nodes = this.Nodes.bind(this);
 		this.Lines = this.Lines.bind(this);
 		this.state = {
@@ -97,19 +97,19 @@ class App extends React.Component {
 		console.log("phase over");
 	};
 
-	generateNodePair = () => {
+	generateNode = () => {
 		console.log("generating");
-		const first = Math.random()
-				.toString(36)
-				.substr(2, 6),
-			second = Math.random()
-				.toString(36)
-				.substr(2, 6);
+		const node = Math.random()
+			.toString(36)
+			.substr(2, 6);
+		// second = Math.random()
+		// 	.toString(36)
+		// 	.substr(2, 6);
 
-		console.log("gen: ", first, second);
+		console.log("gen: ", node);
 
 		this.setState({
-			nodes: [...this.state.nodes, first, second],
+			nodes: [...this.state.nodes, node],
 			active: true
 		});
 	};
@@ -157,7 +157,12 @@ class App extends React.Component {
 		console.log({ lines }, "ty:", typeof lines);
 		console.log(this.state.lines);
 
-		if (typeof lines === "undefined" || lines === null || lines.length === null || lines.length === 0) {
+		if (
+			typeof lines === "undefined" ||
+			lines === null ||
+			lines.length === null ||
+			lines.length === 0
+		) {
 			return null;
 		}
 
@@ -170,14 +175,27 @@ class App extends React.Component {
 				{lines_keys.map((node, index) =>
 					lines_values[index].map(
 						dest => (
-							console.log({ index }, { node }, { dest }, coordinates[`${nodes.indexOf(dest)}`]),
+							console.log(
+								{ index },
+								{ node },
+								{ dest },
+								coordinates[`${nodes.indexOf(dest)}`]
+							),
 							(
 								<Line
 									key={dest}
-									x0={coordinates[`${nodes.indexOf(node)}`][0]}
-									y0={coordinates[`${nodes.indexOf(node)}`][1]}
-									x1={coordinates[`${nodes.indexOf(dest)}`][0]}
-									y1={coordinates[`${nodes.indexOf(dest)}`][1]}
+									x0={
+										coordinates[`${nodes.indexOf(node)}`][0]
+									}
+									y0={
+										coordinates[`${nodes.indexOf(node)}`][1]
+									}
+									x1={
+										coordinates[`${nodes.indexOf(dest)}`][0]
+									}
+									y1={
+										coordinates[`${nodes.indexOf(dest)}`][1]
+									}
 									borderWidth={3}
 									zIndex={-1}
 								/>
@@ -193,7 +211,7 @@ class App extends React.Component {
 		return (
 			<div>
 				<h1>This is App.</h1>
-				<button onClick={this.generateNodePair}>New Pair</button>
+				<button onClick={this.generateNode}>New Node</button>
 				<button onClick={this.insertLine}>Draw Line</button>
 				{this.state.message}
 				<br />
