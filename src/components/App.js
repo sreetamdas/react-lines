@@ -2,7 +2,6 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDesktop } from "@fortawesome/free-solid-svg-icons";
 import Draggable from "react-draggable";
-import LineElement from "./Line";
 import { Line } from "react-progress-line";
 
 class ReactLines extends React.Component {
@@ -210,7 +209,7 @@ class ReactLines extends React.Component {
 	render() {
 		return (
 			<div>
-				<h1>This is App.</h1>
+				<h1>This is React Lines.</h1>
 				<button onClick={this.generateNode}>New Node</button>
 				<button onClick={this.insertLine}>Draw Line</button>
 				{this.state.message}
