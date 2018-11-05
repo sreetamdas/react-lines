@@ -1,4 +1,3 @@
-import React from "react";
 import ReactLines from "./components/App";
 
 // ReactDOM.render(<ReactLines />, document.getElementById("root"));

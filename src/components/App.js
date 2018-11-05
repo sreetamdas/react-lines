@@ -23,7 +23,7 @@ class ReactLines extends React.Component {
 			lines: []
 		};
 	}
-	componentDidMount = () => {
+	componentDidMount() {
 		console.log("loaded");
 	};
 	handleMovement = (e, data) => {
