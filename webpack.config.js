@@ -6,7 +6,7 @@ var path = require("path");
 var outputPath = path.join(__dirname, "dist");
 
 var config = {
-	entry: "./src/index.js",
+	entry: "./src/components/App.js",
 
 	module: {
 		loaders: [
