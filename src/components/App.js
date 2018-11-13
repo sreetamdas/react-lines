@@ -131,8 +131,7 @@ class ReactLines extends React.Component {
 			<React.Fragment>
 				{nodes.map(
 					node => (
-						console.log("qwe"),
-						(
+						
 							<Draggable onDrag={this.handleMovement} key={node}>
 								<div className="shrink">
 									<FontAwesomeIcon
@@ -143,7 +142,7 @@ class ReactLines extends React.Component {
 									/>
 								</div>
 							</Draggable>
-						)
+						
 					)
 				)}
 			</React.Fragment>
@@ -176,13 +175,7 @@ class ReactLines extends React.Component {
 			<React.Fragment>
 				{lines_keys.map((node, index) =>
 					lines_values[index].map(
-						dest => (
-							console.log(
-								{ index },
-								{ node },
-								{ dest },
-								coordinates[`${nodes.indexOf(dest)}`]
-							),
+						dest => 
 							(
 								<Line
 									key={dest}
@@ -204,7 +197,7 @@ class ReactLines extends React.Component {
 							)
 						)
 					)
-				)}
+				}
 			</React.Fragment>
 		);
 	};
