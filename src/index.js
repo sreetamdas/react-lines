@@ -26,7 +26,7 @@ class ReactLines extends React.Component {
 	componentDidMount() {
 		console.log("loaded");
 	};
-	handleMovement = (e, data) => {
+	handleMovement(e, data) {
 		const id = data.node.firstChild.id;
 		const el = document.getElementById(id);
 
@@ -47,7 +47,7 @@ class ReactLines extends React.Component {
 		});
 	};
 
-	handleClick = e => {
+	handleClick(e) {
 		console.log("target:", e.target.id);
 
 		const node = e.target.id;
@@ -95,7 +95,7 @@ class ReactLines extends React.Component {
 		console.log("phase over");
 	};
 
-	generateNode = () => {
+	generateNode() {
 		console.log("generating");
 		const node = Math.random()
 			.toString(36)
@@ -112,19 +112,19 @@ class ReactLines extends React.Component {
 		});
 	};
 
-	insertNodePair = (first, second) => {
+	insertNodePair(first, second) {
 		console.log("inserting");
 	};
 
-	insertLine = () => {
+	insertLine() {
 		document.addEventListener("click", this.handleClick);
 	};
 
-	filler = () => {
+	filler() {
 		this.Nodes();
 	};
 
-	Nodes = () => {
+	Nodes() {
 		const nodes = this.state.nodes;
 		console.log("nodes = ", { nodes });
 		return (
@@ -150,7 +150,7 @@ class ReactLines extends React.Component {
 		);
 	};
 
-	Lines = () => {
+	Lines() {
 		console.log("in lines");
 		const coordinates = [...this.state.coordinates],
 			lines = { ...this.state.lines },

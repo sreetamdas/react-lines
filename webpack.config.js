@@ -6,33 +6,34 @@ var path = require('path');
 var outputPath = path.join(__dirname, 'dist');
 
 var config = {
-    entry: './src/index.js',
+	entry: "./src/index.js",
 
-    module: {
-        loaders: [
-            {
-                test: /\.jsx?$/,
-                loader: 'babel-loader',
-                exclude: /node_modules/,
-                query: {
-                    presets: ['es2015', 'react']
-                }
-            },
-            {
-                test: /\.jsx?/,
-                exclude: /node_modules/,
-                loader: 'eslint-loader',
-            },
-        ]
-    },
+	module: {
+		loaders: [
+			{
+				test: /\.jsx?$/,
+				loader: "babel-loader",
+				exclude: /node_modules/,
+				query: {
+					presets: ["es2015", "react"],
+					plugins: ["transform-object-rest-spread"],
+				},
+			},
+			// {
+			//     test: /\.jsx?/,
+			//     exclude: /node_modules/,
+			//     loader: 'eslint-loader',
+			// },
+		],
+	},
 
-    externals: [
-        'prop-types',
-        'react',
+	externals: [
+		"prop-types",
+		"react",
 		"@fortawesome/fontawesome-svg-core",
 		"@fortawesome/free-solid-svg-icons",
-		"@fortawesome/react-fontawesome"
-    ]
+		"@fortawesome/react-fontawesome",
+	],
 };
 
 module.exports = [
