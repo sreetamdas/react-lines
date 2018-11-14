@@ -15,7 +15,7 @@ var config = {
 				loader: "babel-loader",
 				exclude: /node_modules/,
 				query: {
-					presets: ["es2015", "react"],
+                    presets: ["@babel/preset-env", "@babel/preset-react"],
 					plugins: ["transform-object-rest-spread"],
 				},
 			},
