@@ -11,6 +11,8 @@ class ReactLines extends React.Component {
 		this.handleMovement = this.handleMovement.bind(this);
 		this.handleClick = this.handleClick.bind(this);
 		this.generateNode = this.generateNode.bind(this);
+		this.insertLine = this.insertLine.bind(this);
+
 		this.Nodes = this.Nodes.bind(this);
 		this.Lines = this.Lines.bind(this);
 		this.state = {
@@ -18,6 +20,7 @@ class ReactLines extends React.Component {
 			show: false,
 			message: null,
 			first_node_in_line: false,
+			click: false,
 			nodes: [],
 			coordinates: [],
 			lines: []
@@ -25,7 +28,7 @@ class ReactLines extends React.Component {
 	}
 	componentDidMount() {
 		console.log("loaded");
-	};
+	}
 	handleMovement(e, data) {
 		const id = data.node.firstChild.id;
 		const el = document.getElementById(id);
@@ -45,9 +48,15 @@ class ReactLines extends React.Component {
 		this.setState({
 			coordinates: updated_coordinates
 		});
-	};
+	}
 
 	handleClick(e) {
+		// if (!this.state.click) {
+		// 	console.log("false");
+
+		// 	return false;
+		// }
+
 		console.log("target:", e.target.id);
 
 		const node = e.target.id;
@@ -68,6 +77,7 @@ class ReactLines extends React.Component {
 				{
 					message: "click the next one",
 					first_node_in_line: node,
+					// click: true,
 					lines: connections
 				},
 				console.log("set1")
@@ -85,15 +95,16 @@ class ReactLines extends React.Component {
 					message: "done",
 					lines: connections,
 					first_node_in_line: false,
+					// click: false,
 					show: true
 				},
-				console.log("state:", this.state.lines),
+				console.log("state:", this.state.lines)
 			);
 			console.log("removing listener");
 			document.removeEventListener("click", this.handleClick);
 		}
 		console.log("phase over");
-	};
+	}
 
 	generateNode() {
 		console.log("generating");
@@ -110,45 +121,34 @@ class ReactLines extends React.Component {
 			nodes: [...this.state.nodes, node],
 			active: true
 		});
-	};
+	}
 
 	insertNodePair(first, second) {
 		console.log("inserting");
-	};
+	}
 
 	insertLine() {
 		document.addEventListener("click", this.handleClick);
-	};
 
-	filler() {
-		this.Nodes();
-	};
-
+		// this.setState({
+		// 	click: true
+		// });
+	}
 	Nodes() {
 		const nodes = this.state.nodes;
 		console.log("nodes = ", { nodes });
 		return (
 			<React.Fragment>
-				{nodes.map(
-					node => (
-						console.log("qwe"),
-						(
-							<Draggable onDrag={this.handleMovement} key={node}>
-								<div className="shrink">
-									<FontAwesomeIcon
-										id={node}
-										icon={faDesktop}
-										size="3x"
-										style={{ backgroundColor: "white" }}
-									/>
-								</div>
-							</Draggable>
-						)
-					)
-				)}
+				{nodes.map(node => (
+					<Draggable onDrag={this.handleMovement} key={node}>
+						<div className="shrink">
+							<FontAwesomeIcon id={node} icon={faDesktop} size="3x" style={{ backgroundColor: "white" }} />
+						</div>
+					</Draggable>
+				))}
 			</React.Fragment>
 		);
-	};
+	}
 
 	Lines() {
 		console.log("in lines");
@@ -159,12 +159,7 @@ class ReactLines extends React.Component {
 		console.log({ lines }, "ty:", typeof lines);
 		console.log(this.state.lines);
 
-		if (
-			typeof lines === "undefined" ||
-			lines === null ||
-			lines.length === null ||
-			lines.length === 0
-		) {
+		if (typeof lines === "undefined" || lines === null || lines.length === null || lines.length === 0) {
 			return null;
 		}
 
@@ -177,27 +172,14 @@ class ReactLines extends React.Component {
 				{lines_keys.map((node, index) =>
 					lines_values[index].map(
 						dest => (
-							console.log(
-								{ index },
-								{ node },
-								{ dest },
-								coordinates[`${nodes.indexOf(dest)}`]
-							),
+							console.log({ index }, { node }, { dest }, coordinates[`${nodes.indexOf(dest)}`]),
 							(
 								<Line
 									key={dest}
-									x0={
-										coordinates[`${nodes.indexOf(node)}`][0]
-									}
-									y0={
-										coordinates[`${nodes.indexOf(node)}`][1]
-									}
-									x1={
-										coordinates[`${nodes.indexOf(dest)}`][0]
-									}
-									y1={
-										coordinates[`${nodes.indexOf(dest)}`][1]
-									}
+									x0={coordinates[`${nodes.indexOf(node)}`][0]}
+									y0={coordinates[`${nodes.indexOf(node)}`][1]}
+									x1={coordinates[`${nodes.indexOf(dest)}`][0]}
+									y1={coordinates[`${nodes.indexOf(dest)}`][1]}
 									borderWidth={3}
 									zIndex={-1}
 								/>
@@ -207,7 +189,7 @@ class ReactLines extends React.Component {
 				)}
 			</React.Fragment>
 		);
-	};
+	}
 
 	render() {
 		return (
